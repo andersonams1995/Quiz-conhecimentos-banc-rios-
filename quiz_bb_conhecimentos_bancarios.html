@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Banco do Brasil</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #2b5876, #4e4376);
+      padding: 20px;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    .question {
+      margin-bottom: 15px;
+    }
+    .answers button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .answers button:hover {
+      background-color: #e0e0e0;
+    }
+    .correct {
+      background-color: #4CAF50 !important;
+      color: white;
+    }
+    .incorrect {
+      background-color: #f44336 !important;
+      color: white;
+    }
+    .disabled {
+      pointer-events: none;
+    }
+    #score {
+      font-size: 22px;
+      margin-top: 25px;
+      text-align: center;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container" id="quiz"></div>
+  <div id="score"></div>
+  <script>
+    const quizData = [
+      {
+        question: "1. O mercado que opera a curto prazo destinando recursos ao financiamento de consumo e capital de giro é o mercado:",
+        options: ["de ações", "de capitais", "de câmbio", "de crédito", "monetário"],
+        correct: 4
+      },
+      {
+        question: "2. O Sistema Financeiro Nacional é compreendido por:",
+        options: [
+          "Agentes autorizados pela CVM",
+          "Instituições filantrópicas",
+          "Subsistemas normativo e de intermediação",
+          "Instituições e ONGs voltadas ao crédito",
+          "Somente bancos e corretoras"
+        ],
+        correct: 2
+      },
+      {
+        question: "3. Uma das atribuições do Conselho Monetário Nacional (CMN) é:",
+        options: [
+          "Administrar carteiras de valores",
+          "Executar a política monetária",
+          "Estabelecer normas para o BACEN nas transações com títulos públicos",
+          "Regular compensação de cheques",
+          "Propiciar liquidez às aplicações"
+        ],
+        correct: 2
+      },
+      {
+        question: "4. Quando o Banco Central deseja baratear os empréstimos, ele deve:",
+        options: [
+          "Vender títulos públicos",
+          "Elevar taxa de juros",
+          "Elevar o compulsório",
+          "Reduzir as taxas de juros",
+          "Reduzir as linhas de crédito"
+        ],
+        correct: 3
+      },
+      {
+        question: "5. O que é SELIC?",
+        options: [
+          "Sistema Eletrônico de Crédito",
+          "Sistema de Liquidação e Custódia",
+          "Sistema de Empréstimos de Longo Prazo",
+          "Sistema de Controle Financeiro",
+          "Sistema Especial de Crédito"
+        ],
+        correct: 1
+      },
+      {
+        question: "6. Qual órgão autoriza o funcionamento de instituições financeiras no Brasil?",
+        options: ["Banco do Brasil", "Caixa Econômica Federal", "Banco Central do Brasil", "Ministério da Economia", "CMN"],
+        correct: 2
+      },
+      {
+        question: "7. Qual dessas é função do COPOM?",
+        options: [
+          "Criar novas moedas",
+          "Administrar o FGTS",
+          "Definir a taxa de juros",
+          "Gerenciar bancos privados",
+          "Fiscalizar cooperativas"
+        ],
+        correct: 2
+      },
+      {
+        question: "8. A finalidade do FGTS é:",
+        options: [
+          "Pagamento de impostos",
+          "Reserva para demissão sem justa causa",
+          "Complementar a aposentadoria",
+          "Investimento em ações",
+          "Garantir lucros para bancos"
+        ],
+        correct: 1
+      },
+      {
+        question: "9. O que caracteriza o CDB (Certificado de Depósito Bancário)?",
+        options: [
+          "É um título de renda variável",
+          "Não pode ser resgatado antes do vencimento",
+          "É garantido apenas por cooperativas",
+          "Pode ser prefixado e a taxa é conhecida na aplicação",
+          "Só pode ser emitido pelo governo"
+        ],
+        correct: 3
+      },
+      {
+        question: "10. O que significa liquidez da economia?",
+        options: [
+          "Crescimento das empresas",
+          "Alta da bolsa de valores",
+          "Quantidade de dinheiro em circulação",
+          "Número de cheques compensados",
+          "Inflação acumulada"
+        ],
+        correct: 2
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    let score = 0;
+
+    quizData.forEach((q, index) => {
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+
+      const questionTitle = document.createElement("h3");
+      questionTitle.innerText = q.question;
+      questionDiv.appendChild(questionTitle);
+
+      const answersDiv = document.createElement("div");
+      answersDiv.className = "answers";
+
+      q.options.forEach((option, i) => {
+        const button = document.createElement("button");
+        button.innerText = option;
+        button.onclick = () => {
+          if (i === q.correct) {
+            button.classList.add("correct");
+            score++;
+          } else {
+            button.classList.add("incorrect");
+            answersDiv.children[q.correct].classList.add("correct");
+          }
+          Array.from(answersDiv.children).forEach(btn => btn.classList.add("disabled"));
+          if (index === quizData.length - 1) {
+            document.getElementById("score").innerText = `Você acertou ${score} de ${quizData.length} questões.`;
+          }
+        };
+        answersDiv.appendChild(button);
+      });
+
+      questionDiv.appendChild(answersDiv);
+      quizContainer.appendChild(questionDiv);
+    });
+  </script>
+</body>
+</html>
